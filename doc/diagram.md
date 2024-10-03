@@ -282,16 +282,15 @@ graph TD
 ```
 fonction quicksort(arr = 'csvData', low = 0, high = 'arr.length - 1') 
     si low < high alors 
-        pivotIndex = partition(arr, low, high)
+        pivotIndex = partition(low, high)
         quicksort(arr, low, pivotIndex - 1)
         quicksort(arr, pivotIndex + 1, high)
     fin si
 
-    fonction partition(arr, low, high) 
-        pivot = arr[high]
+    fonction partition(low, high) 
         i = low
 
-        pour j de low à high faire 
+        pour j de low à high - 1 faire 
             si "isLess(j, high)" alors 
                 "swap(i, j)"
                 i = i + 1
@@ -309,31 +308,80 @@ graph TD
     B --> C["low = 0"]
     C --> D["high = arr.length - 1"]
     D --> E{"low < high ?"}
-    E -- Oui --> F["pivotIndex = partition(arr, low, high)"]
+    E -- Oui --> F["pivotIndex = partition(low, high)"]
     F --> G["quicksort(arr, low, pivotIndex - 1)"]
     G --> H["quicksort(arr, pivotIndex + 1, high)"]
     H --> E
     E -- Non --> I["Fin"]
-    E --> J["fonction partition(arr, low, high)"]
-    J --> K["pivot = arr[high]"]
-    K --> L["i = low"]
-    L --> M["pour j de low à high faire"]
-    M --> N{"isLess(j, high) ?"}
-    N -- Oui --> O["swap(i, j)"]
-    O --> P["i = i + 1"]
-    P --> M
-    N -- Non --> M
-    M -- Non --> Q["swap(i, high)"]
-    Q --> R["retourner i"]
+    E --> J["fonction partition(low, high)"]
+    J --> K["i = low"]
+    K --> L["pour j de low à high - 1 faire"]
+    L --> M{"isLess(j, high) ?"}
+    M -- Oui --> N["swap(i, j)"]
+    N --> O["i = i + 1"]
+    O --> L
+    M -- Non --> L
+    L -- Non --> P["swap(i, high)"]
+    P --> Q["retourner i"]
 ```
 
 # quick3sort
 ### PSEUDO CODE
 ```
+fonction quick3sort(arr = 'csvData', low = 0, high = 'arr.length - 1') 
+    si low < high alors 
+        {lt, gt} = partition(low, high)
+        quick3sort(arr, low, lt - 1)
+        quick3sort(arr, gt + 1, high)
+    fin si
 
+    fonction partition(low, high) 
+        i = low
+        lt = low
+        gt = high
+
+        tant que i ≤ gt faire 
+            si "isLess(i, high)" alors 
+                "swap(lt, i)"
+                lt = lt + 1
+                i = i + 1
+            sinon si "isLess(high, i)" alors 
+                "swap(i, gt)"
+                gt = gt - 1
+            sinon 
+                i = i + 1
+            fin si
+        fin tant que
+        retourner {lt, gt}
 ```
 
 ### LOGIGRAM
 ```mermaid
-
+graph TD
+    A["Début"] --> B["arr = 'csvData'"]
+    B --> C["low = 0"]
+    C --> D["high = arr.length - 1"]
+    D --> E{"low < high ?"}
+    E -- Oui --> F["{lt, gt} = partition(low, high)"]
+    F --> G["quicksort(arr, low, lt - 1)"]
+    G --> H["quicksort(arr, gt + 1, high)"]
+    H --> E
+    E -- Non --> I["Fin"]
+    E --> J["fonction partition(low, high)"]
+    J --> K["i = low"]
+    K --> L["lt = low"]
+    L --> M["gt = high"]
+    M --> N{"i ≤ gt ?"}
+    N -- Oui --> O{"isLess(i, high) ?"}
+    O -- Oui --> P["swap(lt, i)"]
+    P --> Q["lt = lt + 1"]
+    Q --> R["i = i + 1"]
+    R --> N
+    O -- Non --> S{"isLess(high, i) ?"}
+    S -- Oui --> T["swap(i, gt)"]
+    T --> U["gt = gt - 1"]
+    U --> N
+    S -- Non --> V["i = i + 1"]
+    V --> N
+    N -- Non --> W["retourner {lt, gt}"]
 ```
