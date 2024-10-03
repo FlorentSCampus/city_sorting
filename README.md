@@ -16,5 +16,3 @@ git clone https://github.com/campus-digital-grenoble/JS_sortingAlgorithm.git .
 ```
 php -S localhost:8123
 ```
-# city_sorting
-# city_sorting# city_sorting
