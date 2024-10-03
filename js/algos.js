@@ -178,13 +178,12 @@ function heapsort (arr = csvData) {
 
 function quicksort (arr = csvData, low = 0, high = arr.length - 1) {
   if (low < high) {
-    const pivotIndex = partition(arr, low, high);
+    const pivotIndex = partition(low, high);
     quicksort(arr, low, pivotIndex - 1);
     quicksort(arr, pivotIndex + 1, high);
   }
 
-  function partition (arr, low, high) {
-    const pivot = arr[high];
+  function partition (low, high) {
     let i = low;
 
     for (let j = low; j < high; j++) {
@@ -198,38 +197,33 @@ function quicksort (arr = csvData, low = 0, high = arr.length - 1) {
   }
 }
 
-// à corriger !!!
-function quick3sort () {
-  // if (low < high) {
-  //   const pivotIndex = partition(arr, low, high);
-  //   quick3sort(arr, low, pivotIndex[0] - 1);
-  //   quick3sort(arr, pivotIndex[1] + 1, high);
-  // }
+function quick3sort (arr = csvData, low = 0, high = arr.length - 1) {
+  if (low < high) {
+    const { lt, gt } = partition(low, high);
+    quick3sort(arr, low, lt - 1);
+    quick3sort(arr, gt + 1, high);
+  }
 
-  // function partition (arr, low, high) {
-  //   const pivot = arr[low];
-  //   let lt = low;
-  //   let gt = high;
-  //   let i = low + 1;
+  function partition (low, high) {
+    let i = low;
+    let lt = low;
+    let gt = high;
 
-  //   while (i <= gt) {
-  //     if (isLess(arr[i], pivot)) {
-  //       swap(lt, i);
-  //       lt++;
-  //       i++;
-  //     } else if (isLess(pivot, arr[i])) {
-  //       swap(i, gt);
-  //       gt--;
-  //     } else {
-  //       i++;
-  //     }
-  //   }
-  //   return [lt, gt];
-  // }
+    while (i <= gt) {
+      if (isLess(i, high)) {
+        swap(lt, i);
+        lt++;
+        i++;
+      } else if (isLess(high, i)) {
+        swap(i, gt);
+        gt--;
+      } else {
+        i++;
+      }
+    }
+    return { lt, gt };
+  }
 }
-
-
-
 
 function sort (algo) {
   switch (algo) {
